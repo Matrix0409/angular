@@ -809,6 +809,10 @@ export class ProfileComponent implements OnInit {
           next: () => {
             this.mealPlans = this.mealPlans.filter(p => p.id !== plan.id);
             this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Error deleting meal plan:', err);
+            alert('Failed to delete meal plan');
           }
         });
       }

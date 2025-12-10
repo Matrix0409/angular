@@ -620,7 +620,7 @@ export class AnalyticsComponent implements OnInit {
     return ((planners / this.users.length) * 100).toFixed(1);
   }
 
-  constructor(private userDataService: UserDataService) {}
+  constructor(private userDataService: UserDataService) { }
 
   ngOnInit(): void {
     this.loadAnalytics();
@@ -664,7 +664,7 @@ export class AnalyticsComponent implements OnInit {
 
   calculateMostFavorited(): void {
     const recipeCount = new Map<number, { title: string; count: number }>();
-    
+
     this.favorites.forEach(fav => {
       const existing = recipeCount.get(fav.recipeId);
       if (existing) {
@@ -682,7 +682,7 @@ export class AnalyticsComponent implements OnInit {
 
   calculateMostReviewed(): void {
     const reviewCount = new Map<number, number>();
-    
+
     this.reviews.forEach(review => {
       reviewCount.set(review.recipeId, (reviewCount.get(review.recipeId) || 0) + 1);
     });
@@ -695,7 +695,7 @@ export class AnalyticsComponent implements OnInit {
 
   calculateHighestRated(): void {
     const recipeRatings = new Map<number, { total: number; count: number }>();
-    
+
     this.reviews.forEach(review => {
       const existing = recipeRatings.get(review.recipeId);
       if (existing) {

@@ -16,7 +16,7 @@ import {
 export class UserDataService {
   private apiUrl = environment.jsonServerUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // User Management
   getAllUsers(): Observable<User[]> {
