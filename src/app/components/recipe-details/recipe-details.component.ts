@@ -574,6 +574,7 @@ export class RecipeDetailsComponent implements OnInit {
             this.userDataService.removeFavorite(favorites[0].id).subscribe({
               next: () => {
                 this.isFavorite = false;
+                this.cdr.detectChanges();
               }
             });
           }
@@ -591,6 +592,7 @@ export class RecipeDetailsComponent implements OnInit {
       this.userDataService.addFavorite(favorite).subscribe({
         next: () => {
           this.isFavorite = true;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error adding favorite:', err);

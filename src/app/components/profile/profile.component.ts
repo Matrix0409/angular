@@ -26,7 +26,7 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
       <div class="profile-tabs">
         <button 
           [class.active]="activeTab === 'favorites'" 
-          (click)="activeTab = 'favorites'"
+          (click)="activeTab = 'favorites'; loadFavorites()"
           class="tab-button"
         >
           ❤️ Favorites ({{favorites.length}})
@@ -163,25 +163,27 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
             <button (click)="closeMealPlanModal()" class="modal-close">✕</button>
           </div>
           <p class="modal-date">Week of {{formatDate(selectedMealPlan.week)}}</p>
-          
+
           <div class="week-days">
             <div class="day-section" *ngFor="let day of getDays()">
               <h3>{{day | titlecase}}</h3>
-              <div class="day-meals" *ngIf="(selectedMealPlan.planData as any)[day]">
+              
+              <div class="day-meals" *ngIf="hasDayData(selectedMealPlan, day)">
                 <div class="meal-summary">
-                  <strong>Calories:</strong> {{(selectedMealPlan.planData as any)[day].nutrients?.calories || 0 | number:'1.0-0'}} cal
+                  <strong>Calories:</strong> {{getDayNutrients(selectedMealPlan, day).calories | number:'1.0-0'}} cal
                   <span class="nutrient-detail">
-                    Protein: {{(selectedMealPlan.planData as any)[day].nutrients?.protein || 0 | number:'1.0-0'}}g
+                    Protein: {{getDayNutrients(selectedMealPlan, day).protein | number:'1.0-0'}}g
                   </span>
                   <span class="nutrient-detail">
-                    Carbs: {{(selectedMealPlan.planData as any)[day].nutrients?.carbohydrates || 0 | number:'1.0-0'}}g
+                    Carbs: {{getDayNutrients(selectedMealPlan, day).carbohydrates | number:'1.0-0'}}g
                   </span>
                   <span class="nutrient-detail">
-                    Fat: {{(selectedMealPlan.planData as any)[day].nutrients?.fat || 0 | number:'1.0-0'}}g  
+                    Fat: {{getDayNutrients(selectedMealPlan, day).fat | number:'1.0-0'}}g
                   </span>
                 </div>
+
                 <div class="meals-grid">
-                  <div class="meal-card" *ngFor="let meal of (selectedMealPlan.planData as any)[day].meals">
+                  <div class="meal-card" *ngFor="let meal of getDayMeals(selectedMealPlan, day)">
                     <img [src]="getMealImage(meal)" [alt]="meal.title" />
                     <div class="meal-details">
                       <h4>{{meal.title}}</h4>
@@ -191,17 +193,21 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!(selectedMealPlan.planData as any)[day].meals || (selectedMealPlan.planData as any)[day].meals.length === 0" class="no-meals-day">
+                
+                <div *ngIf="getDayMeals(selectedMealPlan, day).length === 0" class="no-meals-day">
                   No meals planned for this day
                 </div>
               </div>
-              <div *ngIf="!(selectedMealPlan.planData as any)[day]" class="no-meals-day">
+
+              <div *ngIf="!hasDayData(selectedMealPlan, day)" class="no-meals-day">
                 No data available for this day
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
     </div>
   `,
   styles: [`
@@ -873,5 +879,24 @@ export class ProfileComponent implements OnInit {
 
   goToCustomRecipe(): void {
     this.router.navigate(['/custom-recipe']);
+  }
+  getDayData(plan: MealPlan, day: string): any {
+    if (!plan || !plan.planData) return null;
+    return (plan.planData as any)[day];
+  }
+
+  hasDayData(plan: MealPlan, day: string): boolean {
+    const data = this.getDayData(plan, day);
+    return !!data;
+  }
+
+  getDayMeals(plan: MealPlan, day: string): any[] {
+    const data = this.getDayData(plan, day);
+    return data?.meals || [];
+  }
+
+  getDayNutrients(plan: MealPlan, day: string): any {
+    const data = this.getDayData(plan, day);
+    return data?.nutrients || { calories: 0, protein: 0, fat: 0, carbohydrates: 0 };
   }
 }

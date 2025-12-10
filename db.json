@@ -29,6 +29,20 @@
       "recipeId": 716429,
       "title": "Pasta with Garlic, Scallions, Cherry Tomatoes and Basil",
       "image": "https://spoonacular.com/recipeImages/716429-312x231.jpg"
+    },
+    {
+      "id": "06f7",
+      "userId": "77ba",
+      "recipeId": 647551,
+      "title": "Hot ‘n’ honey potato sticks",
+      "image": "https://img.spoonacular.com/recipes/647551-556x370.jpg"
+    },
+    {
+      "id": "9ea2",
+      "userId": "77ba",
+      "recipeId": 632726,
+      "title": "Aromatic perch fillets",
+      "image": "https://img.spoonacular.com/recipes/632726-556x370.jpg"
     }
   ],
   "mealPlans": [
@@ -366,6 +380,273 @@
             "protein": 63.63,
             "fat": 149.78,
             "carbohydrates": 104.51
+          }
+        }
+      }
+    },
+    {
+      "id": "afa8",
+      "userId": "77ba",
+      "name": " Weekly Plan",
+      "week": "2025-12-10",
+      "planData": {
+        "monday": {
+          "meals": [
+            {
+              "id": 640767,
+              "image": "Crepes-Suzette-640767.jpg",
+              "imageType": "jpg",
+              "title": "Crepes Suzette",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/KD8ZMRJ6/crepes-suzette"
+            },
+            {
+              "id": 642681,
+              "image": "Fesenjan-642681.jpg",
+              "imageType": "jpg",
+              "title": "Fesenjan Chicken Stew",
+              "readyInMinutes": 30,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/KRVYLC3H/fesenjan"
+            },
+            {
+              "id": 654331,
+              "image": "Paella-Catalane-With-Mussels--Squid---Crevettes-654331.jpg",
+              "imageType": "jpg",
+              "title": "Paella Catalane With Mussels, Squid & Crevettes",
+              "readyInMinutes": 45,
+              "servings": 10,
+              "sourceUrl": "https://www.foodista.com/recipe/SVHX43GF/paella-catalane-with-mussels-squid-crevettes"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.07,
+            "protein": 82.86,
+            "fat": 130.59,
+            "carbohydrates": 127.84
+          }
+        },
+        "tuesday": {
+          "meals": [
+            {
+              "id": 1095797,
+              "image": "shrove-tuesday-crpes-1095797.jpg",
+              "imageType": "jpg",
+              "title": "Lemon Rum Crêpes",
+              "readyInMinutes": 40,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/CVV8QJ6Q/shrove-tuesday-cr-pes"
+            },
+            {
+              "id": 642593,
+              "image": "Farfalle-With-Sun-Dried-Tomato-Pesto--Sausage-and-Fennel-642593.jpg",
+              "imageType": "jpg",
+              "title": "Farfalle With Sun-Dried Tomato Pesto, Sausage and Fennel",
+              "readyInMinutes": 20,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/CSLBDWBS/farfalle-with-sun-dried-tomato-pesto-sausage-and-fennel"
+            },
+            {
+              "id": 1096017,
+              "image": "mexican-chicken-rice-bowl-1096017.jpg",
+              "imageType": "jpg",
+              "title": "Mexican Chicken & Rice Bowl",
+              "readyInMinutes": 30,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/K6M5RCKM/mexican-chicken-rice-bowl"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.96,
+            "protein": 104.3,
+            "fat": 85.16,
+            "carbohydrates": 205.44
+          }
+        },
+        "wednesday": {
+          "meals": [
+            {
+              "id": 650498,
+              "image": "Lychee-Smoothie-650498.jpg",
+              "imageType": "jpg",
+              "title": "Lychee Smoothie",
+              "readyInMinutes": 45,
+              "servings": 12,
+              "sourceUrl": "https://www.foodista.com/recipe/TK2736L8/lychee-smoothie"
+            },
+            {
+              "id": 663050,
+              "image": "Tex-Mex-Burger-663050.jpg",
+              "imageType": "jpg",
+              "title": "Tex-Mex Burger",
+              "readyInMinutes": 15,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/NSYCCHLT/tex-mex-burger"
+            },
+            {
+              "id": 634421,
+              "image": "Basil---Black-Pepper-Beef-With-Egg-Noodles-634421.jpg",
+              "imageType": "jpg",
+              "title": "Basil & Black Pepper Beef With Egg Noodles",
+              "readyInMinutes": 45,
+              "servings": 2,
+              "sourceUrl": "https://www.foodista.com/recipe/6CCQ5HMY/basil-black-pepper-beef-with-egg-noodles"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.04,
+            "protein": 101.52,
+            "fat": 116.61,
+            "carbohydrates": 135.29
+          }
+        },
+        "thursday": {
+          "meals": [
+            {
+              "id": 665776,
+              "image": "Zucchini-Quiche---Almond-Flax-Crust-665776.jpg",
+              "imageType": "jpg",
+              "title": "Zucchini Quiche & Almond Flax Crust",
+              "readyInMinutes": 45,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/X4RDRKMQ/zucchini-quiche-almond-flax-crust"
+            },
+            {
+              "id": 1095827,
+              "image": "ginger-garlic-and-lime-chicken-thighs-with-escarole-salad-1095827.jpg",
+              "imageType": "jpg",
+              "title": "Ginger-Garlic and Lime Chicken Thighs with Escarole Salad",
+              "readyInMinutes": 30,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/84ZD6N5S/ginger-garlic-and-lime-chicken-thighs-with-escarole-salad"
+            },
+            {
+              "id": 469862,
+              "image": "The-Even-my-picky-bf-will-eat-it-Salad-469862.jpg",
+              "imageType": "jpg",
+              "title": "The \"Even my picky bf will eat it\" Salad",
+              "readyInMinutes": 25,
+              "servings": 2,
+              "sourceUrl": "http://spoonacular.com/-1393242129566"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.08,
+            "protein": 93.72,
+            "fat": 153.07,
+            "carbohydrates": 74.68
+          }
+        },
+        "friday": {
+          "meals": [
+            {
+              "id": 638917,
+              "image": "Chocolate-Chip-Coconut-Muffins-638917.jpg",
+              "imageType": "jpg",
+              "title": "Chocolate Chip Coconut Muffins",
+              "readyInMinutes": 45,
+              "servings": 12,
+              "sourceUrl": "https://www.foodista.com/recipe/SM62VQWH/chocolate-chip-coconut-muffins"
+            },
+            {
+              "id": 663209,
+              "image": "The-Benedict-Burger-663209.jpg",
+              "imageType": "jpg",
+              "title": "The Benedict Burger",
+              "readyInMinutes": 30,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/W76B2R82/the-benedict-burger"
+            },
+            {
+              "id": 659042,
+              "image": "salmon-and-prawn-croquettes-with-lemony-jalapeno-mayonnaise-659042.jpg",
+              "imageType": "jpg",
+              "title": "Salmon and Prawn Croquettes With Lemony Jalapeno Mayonnaise",
+              "readyInMinutes": 45,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/RQ3GGFD5/salmon-and-prawn-croquettes-with-lemony-jalapeno-mayonnaise"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.97,
+            "protein": 112.7,
+            "fat": 130.34,
+            "carbohydrates": 91.54
+          }
+        },
+        "saturday": {
+          "meals": [
+            {
+              "id": 653270,
+              "image": "Nori-Seaweed-Muffins-653270.jpg",
+              "imageType": "jpg",
+              "title": "Nori Seaweed Muffins",
+              "readyInMinutes": 45,
+              "servings": 12,
+              "sourceUrl": "https://www.foodista.com/recipe/BH2PNBXN/nori-seaweed-muffins"
+            },
+            {
+              "id": 1095827,
+              "image": "ginger-garlic-and-lime-chicken-thighs-with-escarole-salad-1095827.jpg",
+              "imageType": "jpg",
+              "title": "Ginger-Garlic and Lime Chicken Thighs with Escarole Salad",
+              "readyInMinutes": 30,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/84ZD6N5S/ginger-garlic-and-lime-chicken-thighs-with-escarole-salad"
+            },
+            {
+              "id": 657377,
+              "image": "Pumpkin-Ravioli-With-Browned-Butter-Sage-Sauce-657377.jpg",
+              "imageType": "jpg",
+              "title": "Pumpkin Ravioli With Browned Butter Sage Sauce",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/L3MLJPK3/pumpkin-ravioli-with-browned-butter-sage-sauce"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.91,
+            "protein": 90.08,
+            "fat": 128.66,
+            "carbohydrates": 122.35
+          }
+        },
+        "sunday": {
+          "meals": [
+            {
+              "id": 637042,
+              "image": "Caramelised-Onion-and-Mushroom-Quiche-637042.jpg",
+              "imageType": "jpg",
+              "title": "Caramelised Onion and Mushroom Quiche",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/S7XHL4C5/caramelised-onion-and-mushroom-quiche"
+            },
+            {
+              "id": 1697541,
+              "image": "pasta-with-feta-cheese-and-asparagus-1697541.jpg",
+              "imageType": "jpg",
+              "title": "Pasta With Feta Cheese And Asparagus",
+              "readyInMinutes": 20,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/pasta-with-feta-cheese-and-asparagus/"
+            },
+            {
+              "id": 636736,
+              "image": "Cajun-Seafood-and-Andouille-Sausage-Gumbo-636736.jpg",
+              "imageType": "jpg",
+              "title": "Cajun Seafood and Andouille Sausage Gumbo",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/SQBW5QGT/cajun-seafood-and-andouille-sausage-gumbo"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.04,
+            "protein": 87.33,
+            "fat": 110.12,
+            "carbohydrates": 167.69
           }
         }
       }

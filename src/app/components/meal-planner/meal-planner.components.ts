@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SpoonacularService } from '../../services/spoonacular.service';
 import { UserDataService } from '../../services/user-data.service';
 import { AuthService } from '../../services/auth.service';
 import { MealPlan, DayPlan, WeeklyPlanData } from '../../models/models';
+import { finalize, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-meal-planner',
@@ -509,7 +510,8 @@ export class MealPlannerComponent implements OnInit {
   constructor(
     private spoonacularService: SpoonacularService,
     private userDataService: UserDataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void { }
@@ -524,49 +526,57 @@ export class MealPlannerComponent implements OnInit {
     this.error = '';
     this.saveSuccess = false;
 
-    this.spoonacularService.generateMealPlan('week', this.targetCalories, this.selectedDiet).subscribe({
-      next: (response) => {
-        // Transform API response to our MealPlan format
-        const planData: any = {
-          monday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          tuesday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          wednesday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          thursday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          friday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          saturday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
-          sunday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } }
-        };
+    this.spoonacularService.generateMealPlan('week', this.targetCalories, this.selectedDiet)
+      .pipe(
+        timeout(15000),
+        finalize(() => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          // Transform API response to our MealPlan format
+          const planData: any = {
+            monday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            tuesday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            wednesday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            thursday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            friday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            saturday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } },
+            sunday: { meals: [], nutrients: { calories: 0, protein: 0, fat: 0, carbohydrates: 0 } }
+          };
 
-        // Parse the week data from API
-        if (response.week) {
-          Object.keys(response.week).forEach((day) => {
-            const dayData = response.week[day];
-            // day is already 'monday', 'tuesday', etc. from the API response
+          // Parse the week data from API
+          if (response.week) {
+            Object.keys(response.week).forEach((day) => {
+              const dayData = response.week[day];
+              // day is already 'monday', 'tuesday', etc. from the API response
 
-            planData[day] = {
-              meals: dayData.meals || [],
-              nutrients: dayData.nutrients || { calories: 0, protein: 0, fat: 0, carbohydrates: 0 }
-            };
-          });
-        } else {
-          console.warn('MealPlannerComponent: No week data in response');
+              planData[day] = {
+                meals: dayData.meals || [],
+                nutrients: dayData.nutrients || { calories: 0, protein: 0, fat: 0, carbohydrates: 0 }
+              };
+            });
+          } else {
+            console.warn('MealPlannerComponent: No week data in response');
+          }
+
+          this.generatedPlan = {
+            userId: this.authService.currentUserValue?.id || 0,
+            name: this.planName,
+            week: this.getCurrentWeek(),
+            planData: planData
+          };
+
+
+        },
+        error: (err) => {
+          console.error('Error generating meal plan:', err);
+          this.error = 'Failed to generate meal plan. Please check your API key and try again.';
+
         }
-
-        this.generatedPlan = {
-          userId: this.authService.currentUserValue?.id || 0,
-          name: this.planName,
-          week: this.getCurrentWeek(),
-          planData: planData
-        };
-
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error generating meal plan:', err);
-        this.error = 'Failed to generate meal plan. Please check your API key and try again.';
-        this.loading = false;
-      }
-    });
+      });
   }
 
   saveMealPlan(): void {
