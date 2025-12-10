@@ -1,0 +1,420 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "name": "Admin User",
+      "isAdmin": true
+    },
+    {
+      "id": "2",
+      "email": "user@example.com",
+      "password": "user123",
+      "name": "John Doe",
+      "isAdmin": false
+    },
+    {
+      "id": "77ba",
+      "email": "deshmukharyan68@gmail.com",
+      "password": "1234567890",
+      "name": "Aryan deshmukh",
+      "isAdmin": false
+    }
+  ],
+  "favorites": [
+    {
+      "id": "1",
+      "userId": 2,
+      "recipeId": 716429,
+      "title": "Pasta with Garlic, Scallions, Cherry Tomatoes and Basil",
+      "image": "https://spoonacular.com/recipeImages/716429-312x231.jpg"
+    }
+  ],
+  "mealPlans": [
+    {
+      "id": "1",
+      "userId": 2,
+      "name": "My First Weekly Plan",
+      "week": "2025-10-27",
+      "planData": {
+        "monday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "tuesday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "wednesday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "thursday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "friday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "saturday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        },
+        "sunday": {
+          "meals": [],
+          "nutrients": {
+            "calories": 2000,
+            "protein": 50,
+            "fat": 70,
+            "carbohydrates": 250
+          }
+        }
+      }
+    },
+    {
+      "id": "7b62",
+      "userId": "77ba",
+      "name": "My Weekly Plan",
+      "week": "2025-12-10",
+      "planData": {
+        "monday": {
+          "meals": [
+            {
+              "id": 1697823,
+              "image": "bacon-apple-pecan-stuffed-french-toast-1697823.jpg",
+              "imageType": "jpg",
+              "title": "Bacon-Apple-Pecan Stuffed French Toast",
+              "readyInMinutes": 30,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/bacon-apple-pecan-stuffed-french-toast/"
+            },
+            {
+              "id": 1502523,
+              "image": "instant-pot-chicken-thighs-1502523.jpg",
+              "imageType": "jpg",
+              "title": "Instant Pot Chicken Thighs",
+              "readyInMinutes": 13,
+              "servings": 4,
+              "sourceUrl": "https://www.pinkwhen.com/instant-pot-chicken-thighs/"
+            },
+            {
+              "id": 1697673,
+              "image": "sheet-pan-dinner-hanger-steak-with-mushrooms-and-carrots-1697673.jpg",
+              "imageType": "jpg",
+              "title": "Sheet Pan Dinner: Hanger Steak with Mushrooms and Carrots",
+              "readyInMinutes": 35,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/sheet-pan-dinner-hanger-steak/"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.87,
+            "protein": 100.34,
+            "fat": 158.62,
+            "carbohydrates": 49.53
+          }
+        },
+        "tuesday": {
+          "meals": [
+            {
+              "id": 635446,
+              "image": "Blueberry-Cinnamon-Porridge-635446.jpg",
+              "imageType": "jpg",
+              "title": "Blueberry Cinnamon Porridge",
+              "readyInMinutes": 45,
+              "servings": 1,
+              "sourceUrl": "https://www.foodista.com/recipe/2HVQB6LT/blueberry-cinnamon-porridge"
+            },
+            {
+              "id": 1502521,
+              "image": "crack-chicken-chili-1502521.jpg",
+              "imageType": "jpg",
+              "title": "Crack Chicken Chili",
+              "readyInMinutes": 30,
+              "servings": 6,
+              "sourceUrl": "https://www.pinkwhen.com/crack-chicken-chili/"
+            },
+            {
+              "id": 656777,
+              "image": "Pork-Fried-Rice-656777.jpg",
+              "imageType": "jpg",
+              "title": "Pork Fried Rice",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/5N4TG2KX/pork-fried-rice"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.07,
+            "protein": 71.07,
+            "fat": 138.29,
+            "carbohydrates": 128.69
+          }
+        },
+        "wednesday": {
+          "meals": [
+            {
+              "id": 636458,
+              "image": "BUNNY-EGGS-636458.jpg",
+              "imageType": "jpg",
+              "title": "Bunny Eggs Kids Breakfast",
+              "readyInMinutes": 45,
+              "servings": 6,
+              "sourceUrl": "https://www.foodista.com/recipe/3CWLHXBM/bunny-eggs"
+            },
+            {
+              "id": 1095806,
+              "image": "spanish-style-salmon-fillets-1095806.jpg",
+              "imageType": "jpg",
+              "title": "Spanish style salmon fillets",
+              "readyInMinutes": 30,
+              "servings": 2,
+              "sourceUrl": "https://www.foodista.com/recipe/JS5W8D53/spanish-style-salmon-fillets"
+            },
+            {
+              "id": 634839,
+              "image": "Bennigans-Style-Potato-Soup-634839.jpg",
+              "imageType": "jpg",
+              "title": "Bennigan's Style Potato Soup",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/RKDPGZWJ/bennigans-style-potato-soup"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.03,
+            "protein": 86.19,
+            "fat": 124.77,
+            "carbohydrates": 136.73
+          }
+        },
+        "thursday": {
+          "meals": [
+            {
+              "id": 655219,
+              "image": "Peanut-Butter-And-Chocolate-Oatmeal-655219.jpg",
+              "imageType": "jpg",
+              "title": "Peanut Butter And Chocolate Oatmeal",
+              "readyInMinutes": 45,
+              "servings": 1,
+              "sourceUrl": "https://www.foodista.com/recipe/JCCVHSNP/peanut-butter-and-chocolate-oatmeal"
+            },
+            {
+              "id": 1697677,
+              "image": "super-easy-oven-baked-cod-1697677.jpg",
+              "imageType": "jpg",
+              "title": "Super Easy Oven Baked Cod",
+              "readyInMinutes": 20,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/super-easy-oven-baked-cod/"
+            },
+            {
+              "id": 634496,
+              "image": "BBQ-Mac-and-Cheese-634496.jpg",
+              "imageType": "jpg",
+              "title": "BBQ Mac and Cheese",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/FNMKDX42/bbq-mac-and-cheese"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.18,
+            "protein": 102.65,
+            "fat": 56.63,
+            "carbohydrates": 274.06
+          }
+        },
+        "friday": {
+          "meals": [
+            {
+              "id": 635446,
+              "image": "Blueberry-Cinnamon-Porridge-635446.jpg",
+              "imageType": "jpg",
+              "title": "Blueberry Cinnamon Porridge",
+              "readyInMinutes": 45,
+              "servings": 1,
+              "sourceUrl": "https://www.foodista.com/recipe/2HVQB6LT/blueberry-cinnamon-porridge"
+            },
+            {
+              "id": 716297,
+              "image": "breaded-shrimp-and-spicy-mayo-716297.jpg",
+              "imageType": "jpg",
+              "title": "Breaded Shrimp and Spicy Mayo Appetizer",
+              "readyInMinutes": 20,
+              "servings": 4,
+              "sourceUrl": "https://www.afrolems.com/2013/10/13/breaded-shrimp-and-spicy-mayo/"
+            },
+            {
+              "id": 650181,
+              "image": "Little-Italy-Burger-650181.jpg",
+              "imageType": "jpg",
+              "title": "Little Italy Burger",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/DXM5KVFD/little-italy-burger"
+            }
+          ],
+          "nutrients": {
+            "calories": 2000.08,
+            "protein": 60.49,
+            "fat": 153.13,
+            "carbohydrates": 104.73
+          }
+        },
+        "saturday": {
+          "meals": [
+            {
+              "id": 640139,
+              "image": "Corned-Beef-Hash-with-Kale-640139.jpg",
+              "imageType": "jpg",
+              "title": "Corned Beef Hash with Kale",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/T72RMQ32/corned-beef-hash-with-kale"
+            },
+            {
+              "id": 1697747,
+              "image": "wienerschnitzel-1697747.jpg",
+              "imageType": "jpg",
+              "title": "Wienerschnitzel",
+              "readyInMinutes": 30,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/wienerschnitzel/"
+            },
+            {
+              "id": 663357,
+              "image": "The-Unagi-Burger-663357.jpg",
+              "imageType": "jpg",
+              "title": "The Unagi Burger",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/P7YT5V88/the-unagi-burger"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.81,
+            "protein": 119.53,
+            "fat": 121.59,
+            "carbohydrates": 105.6
+          }
+        },
+        "sunday": {
+          "meals": [
+            {
+              "id": 646982,
+              "image": "Homemade-Eggs-Benedict-646982.jpg",
+              "imageType": "jpg",
+              "title": "Meatless Eggs Benedict",
+              "readyInMinutes": 25,
+              "servings": 2,
+              "sourceUrl": "http://www.foodista.com/recipe/X8RJBK5X/homemade-eggs-benedict"
+            },
+            {
+              "id": 1697687,
+              "image": "spinach-mushroom-omelette-with-parmesan-1697687.jpg",
+              "imageType": "jpg",
+              "title": "Spinach Mushroom Omelette with Parmesan",
+              "readyInMinutes": 20,
+              "servings": 2,
+              "sourceUrl": "https://maplewoodroad.com/spinach-mushroom-omelette-with-parmesan/"
+            },
+            {
+              "id": 649405,
+              "image": "Lebanese-Lentil-Soup-649405.jpg",
+              "imageType": "jpg",
+              "title": "Lebanese Lentil Soup",
+              "readyInMinutes": 45,
+              "servings": 4,
+              "sourceUrl": "https://www.foodista.com/recipe/XSWN5NTY/lebanese-lentil-soup"
+            }
+          ],
+          "nutrients": {
+            "calories": 1999.98,
+            "protein": 63.63,
+            "fat": 149.78,
+            "carbohydrates": 104.51
+          }
+        }
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "recipeId": 716429,
+      "userId": 2,
+      "rating": 5,
+      "comment": "This was a fantastic recipe!",
+      "date": "2025-10-28T12:00:00Z"
+    },
+    {
+      "id": "2d23",
+      "recipeId": 652825,
+      "userId": "77ba",
+      "userName": "Aryan deshmukh",
+      "rating": 2,
+      "comment": "okish",
+      "date": "2025-12-08T20:23:47.862Z"
+    },
+    {
+      "id": "7619",
+      "recipeId": 665330,
+      "userId": "77ba",
+      "userName": "Aryan deshmukh",
+      "rating": 2,
+      "comment": "jjj",
+      "date": "2025-12-08T21:58:10.115Z"
+    }
+  ],
+  "customRecipes": [
+    {
+      "id": "c1",
+      "userId": 2,
+      "title": "Grandma's Secret Cookies",
+      "ingredients": "Flour, Sugar, Butter, Eggs, Love",
+      "instructions": "Mix all ingredients together and bake at 350°F for 12 minutes.",
+      "image": "https://placehold.co/312x231/eee/ccc?text=My+Recipe"
+    },
+    {
+      "id": "dc52",
+      "userId": "77ba",
+      "title": "1dwsfsd",
+      "ingredients": "cdsfvdsc",
+      "instructions": "vcdwscdsc",
+      "image": "https://placehold.co/312x231/eee/ccc?text=My+Recipe"
+    }
+  ]
+}
