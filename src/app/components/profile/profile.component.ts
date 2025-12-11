@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -9,9 +10,10 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <div class="profile-container" *ngIf="user">
+
       <div class="profile-header">
         <div class="profile-avatar">
           {{ user.name.charAt(0).toUpperCase() }}
@@ -44,6 +46,13 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
           class="tab-button"
         >
           📝 My Recipes ({{customRecipes.length}})
+        </button>
+        <button 
+          [class.active]="activeTab === 'settings'" 
+          (click)="activeTab = 'settings'"
+          class="tab-button"
+        >
+          ⚙️ Settings
         </button>
       </div>
 
@@ -152,6 +161,67 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'settings'">
+        <div class="section-header">
+          <h2>Account Settings</h2>
+        </div>
+
+        <div class="settings-card">
+          <h3>Change Password</h3>
+          <form (ngSubmit)="changePassword()" #pwForm="ngForm" class="password-form">
+            <div class="form-group">
+              <label for="currentPassword">Current Password</label>
+              <input 
+                type="password" 
+                id="currentPassword" 
+                [(ngModel)]="passwordForm.currentPassword" 
+                name="currentPassword" 
+                required
+                class="form-control"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input 
+                type="password" 
+                id="newPassword" 
+                [(ngModel)]="passwordForm.newPassword" 
+                name="newPassword" 
+                required
+                minlength="6"
+                class="form-control"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm New Password</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                [(ngModel)]="passwordForm.confirmPassword" 
+                name="confirmPassword" 
+                required
+                class="form-control"
+              >
+            </div>
+
+            <div class="alert alert-error" *ngIf="passwordError">
+              {{passwordError}}
+            </div>
+
+            <div class="alert alert-success" *ngIf="passwordSuccess">
+              {{passwordSuccess}}
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!pwForm.form.valid">
+              Update Password
+            </button>
+          </form>
         </div>
       </div>
 
@@ -707,8 +777,64 @@ import { User, Favorite, MealPlan, CustomRecipe } from '../../models/models';
 
       .meal-summary {
         flex-direction: column;
-        align-items: flex-start;
+          align-items: flex-start;
       }
+    }
+
+    .settings-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    .password-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .form-control {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .alert-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
     }
   `]
 })
@@ -719,6 +845,14 @@ export class ProfileComponent implements OnInit {
   customRecipes: CustomRecipe[] = [];
   activeTab: string = 'favorites';
   selectedMealPlan: MealPlan | null = null;
+
+  passwordForm = {
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  };
+  passwordError: string = '';
+  passwordSuccess: string = '';
 
   constructor(
     private authService: AuthService,
@@ -834,13 +968,7 @@ export class ProfileComponent implements OnInit {
     return `https://spoonacular.com/recipeImages/${meal.id}-312x231.${meal.imageType || 'jpg'}`;
   }
 
-  viewCustomRecipe(recipe: CustomRecipe): void {
-    if (recipe.id) {
-      this.router.navigate(['/custom-recipe', recipe.id]);
-    } else {
-      this.router.navigate(['/custom-recipe']);
-    }
-  }
+
 
   deleteCustomRecipe(recipe: CustomRecipe): void {
     if (confirm(`Delete recipe "${recipe.title}"?`)) {
@@ -902,5 +1030,50 @@ export class ProfileComponent implements OnInit {
   getDayNutrients(plan: MealPlan, day: string): any {
     const data = this.getDayData(plan, day);
     return data?.nutrients || { calories: 0, protein: 0, fat: 0, carbohydrates: 0 };
+  }
+
+  viewCustomRecipe(recipe: CustomRecipe): void {
+    if (recipe.id) {
+      this.router.navigate(['/custom-recipe', recipe.id]);
+    } else {
+      this.router.navigate(['/custom-recipe']);
+    }
+  }
+
+  changePassword(): void {
+    this.passwordError = '';
+    this.passwordSuccess = '';
+
+    if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
+      this.passwordError = 'New passwords do not match';
+      return;
+    }
+
+    if (this.user && this.passwordForm.currentPassword !== this.user.password) {
+      this.passwordError = 'Incorrect current password';
+      return;
+    }
+
+    if (this.user && this.user.id) {
+      const updatedUser = { ...this.user, password: this.passwordForm.newPassword };
+
+      this.userDataService.updateUser(this.user.id as number, updatedUser).subscribe({
+        next: (user) => {
+          this.user = user;
+          this.passwordSuccess = 'Password updated successfully';
+          this.passwordForm = {
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: ''
+          };
+          // Update auth service state
+          this.authService.updateUser(user);
+        },
+        error: (err) => {
+          console.error('Error updating password:', err);
+          this.passwordError = 'Failed to update password. Please try again.';
+        }
+      });
+    }
   }
 }
