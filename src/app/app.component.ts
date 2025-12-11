@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, CommonModule],
   template: `
-    <app-navbar *ngIf="!isAdminRoute"></app-navbar>
+    <app-navbar></app-navbar>
     <div class="container" [class.admin-container]="isAdminRoute">
       <router-outlet></router-outlet>
     </div>

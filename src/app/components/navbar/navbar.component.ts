@@ -16,27 +16,36 @@ import { User } from '../../models/models';
         </a>
         
         <div class="navbar-menu">
-          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            Home
-          </a>
-          <a routerLink="/search" routerLinkActive="active">
-            Search
-          </a>
-          <a routerLink="/community-recipes" routerLinkActive="active">
-            Community Recipes
-          </a>
+          <!-- Public User Links (Hidden for Admins) -->
+          <ng-container *ngIf="!isAdmin">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              Home
+            </a>
+            <a routerLink="/search" routerLinkActive="active">
+              Search
+            </a>
+            <a routerLink="/community-recipes" routerLinkActive="active">
+              Community Recipes
+            </a>
+          </ng-container>
           
           <ng-container *ngIf="currentUser">
-            <a routerLink="/advanced-search" routerLinkActive="active">
-              Advanced Search
-            </a>
-            <a routerLink="/meal-planner" routerLinkActive="active">
-              Meal Planner
-            </a>
+            <!-- Regular User Links (Hidden for Admins) -->
+            <ng-container *ngIf="!isAdmin">
+              <a routerLink="/advanced-search" routerLinkActive="active">
+                Advanced Search
+              </a>
+              <a routerLink="/meal-planner" routerLinkActive="active">
+                Meal Planner
+              </a>
+            </ng-container>
+
+            <!-- Shared Links -->
             <a routerLink="/profile" routerLinkActive="active">
               Profile
             </a>
             
+            <!-- Admin Only Links -->
             <ng-container *ngIf="isAdmin">
               <a routerLink="/admin" routerLinkActive="active">
                 Admin Dashboard
