@@ -71,6 +71,15 @@ import { CustomRecipe } from '../../models/models';
             <small>Provide a URL to an image of your recipe, or leave blank for a placeholder</small>
           </div>
 
+          <div class="form-checkbox">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="isPublic">
+              <span class="checkmark"></span>
+              Make this recipe Public
+            </label>
+            <small class="checkbox-help">Public recipes appear in the Community section and can be seen by other users.</small>
+          </div>
+
           <div class="image-preview" *ngIf="recipeForm.get('image')?.value">
             <p>Image Preview:</p>
             <img [src]="recipeForm.get('image')?.value" alt="Recipe preview" (error)="onImageError()">
@@ -153,6 +162,34 @@ import { CustomRecipe } from '../../models/models';
 
     .form-group {
       margin-bottom: 1.5rem;
+    }
+
+    .form-checkbox {
+      margin-bottom: 2rem;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: 1.05rem;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .checkbox-container input {
+      width: 1.2rem;
+      height: 1.2rem;
+      cursor: pointer;
+    }
+
+    .checkbox-help {
+      display: block;
+      color: #7f8c8d;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      margin-left: 1.7rem;
     }
 
     .form-group label {
@@ -362,11 +399,12 @@ export class CustomRecipeComponent implements OnInit {
       title: ['', Validators.required],
       ingredients: ['', Validators.required],
       instructions: ['', Validators.required],
-      image: ['']
+      image: [''],
+      isPublic: [false]
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit(): void {
     if (this.recipeForm.invalid) {
@@ -391,14 +429,15 @@ export class CustomRecipeComponent implements OnInit {
       title: this.recipeForm.value.title,
       ingredients: this.recipeForm.value.ingredients,
       instructions: this.recipeForm.value.instructions,
-      image: this.recipeForm.value.image || 'https://placehold.co/312x231/eee/ccc?text=My+Recipe'
+      image: this.recipeForm.value.image || 'https://placehold.co/312x231/eee/ccc?text=My+Recipe',
+      isPublic: this.recipeForm.value.isPublic
     };
 
     this.userDataService.addCustomRecipe(customRecipe).subscribe({
       next: (recipe) => {
         this.successMessage = 'Recipe added successfully! Redirecting to your profile...';
         this.submitting = false;
-        
+
         setTimeout(() => {
           this.router.navigate(['/profile']);
         }, 2000);

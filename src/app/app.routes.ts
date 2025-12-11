@@ -55,6 +55,10 @@ const routes: Routes = [
     loadComponent: () => import('./components/custom-recipe-view/custom-recipe-view.component').then(m => m.CustomRecipeViewComponent),
     canActivate: [() => import('./guards/auth-guard').then(m => m.AuthGuard)]
   },
+  {
+    path: 'community-recipes',
+    loadComponent: () => import('./components/community-recipes/community-recipes.component').then(m => m.CommunityRecipesComponent)
+  },
 
   // Admin Routes
   {

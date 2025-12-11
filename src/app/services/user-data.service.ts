@@ -23,20 +23,20 @@ export class UserDataService {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: number | string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`);
   }
 
-  updateUser(id: number, user: Partial<User>): Observable<User> {
+  updateUser(id: number | string, user: Partial<User>): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/users/${id}`, user);
   }
 
-  deleteUser(id: number): Observable<any> {
+  deleteUser(id: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/users/${id}`);
   }
 
   // Favorites Management
-  getFavoritesByUserId(userId: number): Observable<Favorite[]> {
+  getFavoritesByUserId(userId: number | string): Observable<Favorite[]> {
     return this.http.get<Favorite[]>(`${this.apiUrl}/favorites?userId=${userId}`);
   }
 
@@ -44,11 +44,11 @@ export class UserDataService {
     return this.http.post<Favorite>(`${this.apiUrl}/favorites`, favorite);
   }
 
-  removeFavorite(id: number): Observable<any> {
+  removeFavorite(id: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/favorites/${id}`);
   }
 
-  checkIfFavorite(userId: number, recipeId: number): Observable<Favorite[]> {
+  checkIfFavorite(userId: number | string, recipeId: number | string): Observable<Favorite[]> {
     return this.http.get<Favorite[]>(
       `${this.apiUrl}/favorites?userId=${userId}&recipeId=${recipeId}`
     );
@@ -58,16 +58,16 @@ export class UserDataService {
     return this.http.get<Favorite[]>(`${this.apiUrl}/favorites`);
   }
 
-  deleteFavoritesByUserId(userId: number): Observable<any> {
+  deleteFavoritesByUserId(userId: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/favorites?userId=${userId}`);
   }
 
   // Meal Plans Management
-  getMealPlansByUserId(userId: number): Observable<MealPlan[]> {
+  getMealPlansByUserId(userId: number | string): Observable<MealPlan[]> {
     return this.http.get<MealPlan[]>(`${this.apiUrl}/mealPlans?userId=${userId}`);
   }
 
-  getMealPlanById(id: number): Observable<MealPlan> {
+  getMealPlanById(id: number | string): Observable<MealPlan> {
     return this.http.get<MealPlan>(`${this.apiUrl}/mealPlans/${id}`);
   }
 
@@ -75,11 +75,11 @@ export class UserDataService {
     return this.http.post<MealPlan>(`${this.apiUrl}/mealPlans`, mealPlan);
   }
 
-  updateMealPlan(id: number, mealPlan: Partial<MealPlan>): Observable<MealPlan> {
+  updateMealPlan(id: number | string, mealPlan: Partial<MealPlan>): Observable<MealPlan> {
     return this.http.patch<MealPlan>(`${this.apiUrl}/mealPlans/${id}`, mealPlan);
   }
 
-  deleteMealPlan(id: number): Observable<any> {
+  deleteMealPlan(id: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/mealPlans/${id}`);
   }
 
@@ -87,16 +87,16 @@ export class UserDataService {
     return this.http.get<MealPlan[]>(`${this.apiUrl}/mealPlans`);
   }
 
-  deleteMealPlansByUserId(userId: number): Observable<any> {
+  deleteMealPlansByUserId(userId: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/mealPlans?userId=${userId}`);
   }
 
   // Reviews Management
-  getReviewsByRecipeId(recipeId: number): Observable<Review[]> {
+  getReviewsByRecipeId(recipeId: number | string): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/reviews?recipeId=${recipeId}`);
   }
 
-  getReviewsByUserId(userId: number): Observable<Review[]> {
+  getReviewsByUserId(userId: number | string): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/reviews?userId=${userId}`);
   }
 
@@ -104,11 +104,11 @@ export class UserDataService {
     return this.http.post<Review>(`${this.apiUrl}/reviews`, review);
   }
 
-  updateReview(id: number, review: Partial<Review>): Observable<Review> {
+  updateReview(id: number | string, review: Partial<Review>): Observable<Review> {
     return this.http.patch<Review>(`${this.apiUrl}/reviews/${id}`, review);
   }
 
-  deleteReview(id: number): Observable<any> {
+  deleteReview(id: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/reviews/${id}`);
   }
 
@@ -116,16 +116,16 @@ export class UserDataService {
     return this.http.get<Review[]>(`${this.apiUrl}/reviews`);
   }
 
-  deleteReviewsByUserId(userId: number): Observable<any> {
+  deleteReviewsByUserId(userId: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/reviews?userId=${userId}`);
   }
 
   // Custom Recipes Management
-  getCustomRecipesByUserId(userId: number): Observable<CustomRecipe[]> {
+  getCustomRecipesByUserId(userId: number | string): Observable<CustomRecipe[]> {
     return this.http.get<CustomRecipe[]>(`${this.apiUrl}/customRecipes?userId=${userId}`);
   }
 
-  getCustomRecipeById(id: string): Observable<CustomRecipe> {
+  getCustomRecipeById(id: string | number): Observable<CustomRecipe> {
     return this.http.get<CustomRecipe>(`${this.apiUrl}/customRecipes/${id}`);
   }
 
@@ -133,11 +133,11 @@ export class UserDataService {
     return this.http.post<CustomRecipe>(`${this.apiUrl}/customRecipes`, recipe);
   }
 
-  updateCustomRecipe(id: string, recipe: Partial<CustomRecipe>): Observable<CustomRecipe> {
+  updateCustomRecipe(id: string | number, recipe: Partial<CustomRecipe>): Observable<CustomRecipe> {
     return this.http.patch<CustomRecipe>(`${this.apiUrl}/customRecipes/${id}`, recipe);
   }
 
-  deleteCustomRecipe(id: string): Observable<any> {
+  deleteCustomRecipe(id: string | number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/customRecipes/${id}`);
   }
 
@@ -145,7 +145,23 @@ export class UserDataService {
     return this.http.get<CustomRecipe[]>(`${this.apiUrl}/customRecipes`);
   }
 
-  deleteCustomRecipesByUserId(userId: number): Observable<any> {
+  getPublicCustomRecipes(): Observable<CustomRecipe[]> {
+    // Fetch all custom recipes and filter client-side for now to ensure consistency
+    // with json-server's simple querying capabilities
+    return new Observable(observer => {
+      this.getAllCustomRecipes().subscribe({
+        next: (recipes) => {
+          const publicRecipes = recipes.filter(r => r.isPublic === true);
+          observer.next(publicRecipes);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
+  }
+
+  deleteCustomRecipesByUserId(userId: number | string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/customRecipes?userId=${userId}`);
   }
+
 }

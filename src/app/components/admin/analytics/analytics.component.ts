@@ -5,7 +5,7 @@ import { SpoonacularService } from '../../../services/spoonacular.service';
 import { User, Favorite, MealPlan, Review, CustomRecipe } from '../../../models/models';
 
 interface RecipeStats {
-  recipeId: number;
+  recipeId: number | string;
   title: string;
   count: number;
   averageRating?: number;
@@ -669,7 +669,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   calculateMostFavorited(): void {
-    const recipeCount = new Map<number, { title: string; count: number }>();
+    const recipeCount = new Map<number | string, { title: string; count: number }>();
 
     this.favorites.forEach(fav => {
       const existing = recipeCount.get(fav.recipeId);
@@ -687,7 +687,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   calculateMostReviewed(): void {
-    const reviewCount = new Map<number, number>();
+    const reviewCount = new Map<number | string, number>();
 
     this.reviews.forEach(review => {
       reviewCount.set(review.recipeId, (reviewCount.get(review.recipeId) || 0) + 1);
@@ -702,7 +702,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   calculateHighestRated(): void {
-    const recipeRatings = new Map<number, { total: number; count: number }>();
+    const recipeRatings = new Map<number | string, { total: number; count: number }>();
 
     this.reviews.forEach(review => {
       const existing = recipeRatings.get(review.recipeId);
@@ -727,7 +727,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   calculateTopUsers(): void {
-    const userActivity = new Map<number, any>();
+    const userActivity = new Map<number | string, any>();
 
     this.users.forEach(user => {
       if (user.id) {
@@ -783,18 +783,28 @@ export class AnalyticsComponent implements OnInit {
   fetchRecipeTitles(stats: RecipeStats[]): void {
     if (stats.length === 0) return;
 
-    const ids = stats.map(s => s.recipeId);
-    this.spoonacularService.getRecipeInformationBulk(ids).subscribe(
-      (recipes: any[]) => {
-        recipes.forEach(recipe => {
-          const item = stats.find(s => s.recipeId === recipe.id);
-          if (item) {
-            item.title = recipe.title;
-          }
-        });
-        this.cdr.detectChanges();
-      },
-      error => console.error('Error fetching recipe titles:', error)
-    );
+    // Filter only numeric IDs for Spoonacular
+    const spoonacularIds = stats
+      .map(s => s.recipeId)
+      .filter((id): id is number => typeof id === 'number');
+
+    if (spoonacularIds.length > 0) {
+      this.spoonacularService.getRecipeInformationBulk(spoonacularIds).subscribe(
+        (recipes: any[]) => {
+          recipes.forEach(recipe => {
+            const item = stats.find(s => s.recipeId === recipe.id);
+            if (item) {
+              item.title = recipe.title;
+            }
+          });
+          this.cdr.detectChanges();
+        },
+        error => console.error('Error fetching recipe titles:', error)
+      );
+    }
+
+    // For custom recipes (string IDs), we might want to fetch titles from UserDataService
+    // But for now, we'll leave them as is or they should have been populated elsewhere if possible.
+    // The current loop only updates titles from Spoonacular.
   }
 }

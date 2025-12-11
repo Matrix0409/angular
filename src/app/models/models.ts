@@ -14,7 +14,7 @@ export interface AuthResponse {
 
 // Recipe Models
 export interface Recipe {
-  id: number;
+  id: number | string;
   title: string;
   image: string;
   imageType?: string;
@@ -72,9 +72,9 @@ export interface CaloricBreakdown {
 
 // Favorite Models
 export interface Favorite {
-  id?: number;
-  userId: number;
-  recipeId: number;
+  id?: number | string;
+  userId: number | string; // userId can be string too based on db.json
+  recipeId: number | string;
   title: string;
   image: string;
 }
@@ -104,7 +104,7 @@ export interface DayPlan {
 }
 
 export interface Meal {
-  id: number;
+  id: number | string;
   title: string;
   imageType: string;
   readyInMinutes?: number;
@@ -121,7 +121,7 @@ export interface DayNutrients {
 // Review Models
 export interface Review {
   id?: number;
-  recipeId: number;
+  recipeId: number | string;
   userId: number;
   rating: number;
   comment: string;
@@ -131,12 +131,13 @@ export interface Review {
 
 // Custom Recipe Models
 export interface CustomRecipe {
-  id?: string;
+  id?: string | number;
   userId: number;
   title: string;
   ingredients: string;
   instructions: string;
   image: string;
+  isPublic?: boolean;
 }
 
 // Search Filter Models

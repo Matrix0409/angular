@@ -22,6 +22,9 @@ import { User } from '../../models/models';
           <a routerLink="/search" routerLinkActive="active">
             Search
           </a>
+          <a routerLink="/community-recipes" routerLinkActive="active">
+            Community Recipes
+          </a>
           
           <ng-container *ngIf="currentUser">
             <a routerLink="/advanced-search" routerLinkActive="active">
@@ -130,7 +133,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe(user => {
