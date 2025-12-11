@@ -12,7 +12,7 @@
       "email": "user@example.com",
       "password": "user123",
       "name": "John Doe",
-      "isAdmin": false
+      "isAdmin": true
     },
     {
       "id": "77ba",

@@ -1,7 +1,8 @@
 export const environment = {
   production: false,
   jsonServerUrl: 'http://localhost:3000',
-  spoonacularApiKey: 'fd55b1ef548c42e6857264aba870de30', // Replace with your actual API key
+  spoonacularApiKey: '404bfbc7b51549d9b843f991fbdd22ee', // Replace with your actual API key
+
   spoonacularBaseUrl: 'https://api.spoonacular.com'
 };
 

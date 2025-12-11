@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CommonModule } from '@angular/common'; // Import CommonModule
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent, CommonModule],
   template: `
-    <app-navbar></app-navbar>
-    <div class="container">
+    <app-navbar *ngIf="!isAdminRoute"></app-navbar>
+    <div class="container" [class.admin-container]="isAdminRoute">
       <router-outlet></router-outlet>
     </div>
   `,
@@ -18,8 +20,21 @@ import { NavbarComponent } from './components/navbar/navbar.component';
       margin: 0 auto;
       padding: 20px;
     }
+    .admin-container {
+      max-width: 100%;
+      padding: 0;
+    }
   `]
 })
 export class AppComponent {
   title = 'recipe-finder-app';
+  isAdminRoute = false;
+
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.isAdminRoute = event.url.startsWith('/admin');
+    });
+  }
 }

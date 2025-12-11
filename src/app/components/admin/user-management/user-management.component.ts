@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserDataService } from '../../../services/user-data.service';
@@ -497,19 +497,20 @@ export class UserManagementComponent implements OnInit {
   searchQuery: string = '';
   loading: boolean = true;
   deleting: boolean = false;
-  
+
   showDeleteModal: boolean = false;
   userToDelete: User | null = null;
-  
+
   successMessage: string = '';
   errorMessage: string = '';
-  
+
   currentUserId: number = 0;
 
   constructor(
     private userDataService: UserDataService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.currentUserId = this.authService.currentUserValue?.id || 0;
@@ -523,11 +524,13 @@ export class UserManagementComponent implements OnInit {
         this.users = users;
         this.filteredUsers = users;
         this.loading = false;
+        this.cdr.detectChanges(); // Ensure view updates
       },
       error: (err) => {
         console.error('Error loading users:', err);
         this.showError('Failed to load users');
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -537,7 +540,7 @@ export class UserManagementComponent implements OnInit {
     if (!query) {
       this.filteredUsers = this.users;
     } else {
-      this.filteredUsers = this.users.filter(user => 
+      this.filteredUsers = this.users.filter(user =>
         user.name.toLowerCase().includes(query) ||
         user.email.toLowerCase().includes(query)
       );

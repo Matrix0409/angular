@@ -13,6 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MealPlannerComponent } from './components/meal-planner/meal-planner.components';
 import { CustomRecipeComponent } from './components/custom-recipe/custom-recipe.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.components';
+import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { UserManagementComponent } from './components/admin/user-management/user-management.component';
 import { ReviewManagementComponent } from './review-management/review-management.component';
 import { AnalyticsComponent } from './components/admin/analytics/analytics.component';
@@ -24,51 +25,54 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'search', component: RecipeSearchComponent },
   { path: 'recipes/:id', component: RecipeDetailsComponent },
-  
+
+  // Admin Login
+  { path: 'admin/login', component: AdminLoginComponent },
+
   // Protected user routes
-  { 
-    path: 'advanced-search', 
+  {
+    path: 'advanced-search',
     component: AdvancedSearchComponent,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'profile', 
+  {
+    path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'meal-planner', 
+  {
+    path: 'meal-planner',
     component: MealPlannerComponent,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'custom-recipe', 
+  {
+    path: 'custom-recipe',
     component: CustomRecipeComponent,
     canActivate: [AuthGuard]
   },
-  
+
   // Admin routes
-  { 
-    path: 'admin', 
+  {
+    path: 'admin',
     component: AdminDashboardComponent,
     canActivate: [AdminGuard]
   },
-  { 
-    path: 'admin/users', 
+  {
+    path: 'admin/users',
     component: UserManagementComponent,
     canActivate: [AdminGuard]
   },
-  { 
-    path: 'admin/reviews', 
+  {
+    path: 'admin/reviews',
     component: ReviewManagementComponent,
     canActivate: [AdminGuard]
   },
-  { 
-    path: 'admin/analytics', 
+  {
+    path: 'admin/analytics',
     component: AnalyticsComponent,
     canActivate: [AdminGuard]
   },
-  
+
   // Redirect unknown routes to home
   { path: '**', redirectTo: '' }
 ];

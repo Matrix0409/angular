@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserDataService } from '../services/user-data.service';
@@ -577,18 +577,18 @@ export class ReviewManagementComponent implements OnInit {
   filterRating: number | null = null;
   loading: boolean = true;
   deleting: boolean = false;
-  
+
   showDeleteModal: boolean = false;
   reviewToDelete: Review | null = null;
-  
+
   successMessage: string = '';
   errorMessage: string = '';
-  
+
   currentPage: number = 1;
   reviewsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private userDataService: UserDataService) {}
+  constructor(private userDataService: UserDataService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadReviews();
@@ -598,16 +598,18 @@ export class ReviewManagementComponent implements OnInit {
     this.loading = true;
     this.userDataService.getAllReviews().subscribe({
       next: (reviews: Review[]) => {
-        this.reviews = reviews.sort((a: Review, b: Review) => 
+        this.reviews = reviews.sort((a: Review, b: Review) =>
           new Date(b.date).getTime() - new Date(a.date).getTime()
         );
         this.filterReviews();
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Error loading reviews:', err);
         this.showError('Failed to load reviews');
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -618,7 +620,7 @@ export class ReviewManagementComponent implements OnInit {
     // Filter by search query
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
-      filtered = filtered.filter(review => 
+      filtered = filtered.filter(review =>
         review.userName?.toLowerCase().includes(query) ||
         review.comment.toLowerCase().includes(query)
       );
@@ -696,9 +698,9 @@ export class ReviewManagementComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit'

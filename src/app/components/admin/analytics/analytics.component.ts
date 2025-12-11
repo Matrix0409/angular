@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserDataService } from '../../../services/user-data.service';
+import { SpoonacularService } from '../../../services/spoonacular.service';
 import { User, Favorite, MealPlan, Review, CustomRecipe } from '../../../models/models';
 
 interface RecipeStats {
@@ -620,7 +621,11 @@ export class AnalyticsComponent implements OnInit {
     return ((planners / this.users.length) * 100).toFixed(1);
   }
 
-  constructor(private userDataService: UserDataService) { }
+  constructor(
+    private userDataService: UserDataService,
+    private spoonacularService: SpoonacularService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadAnalytics();
@@ -654,6 +659,7 @@ export class AnalyticsComponent implements OnInit {
       this.calculateHighestRated();
       this.calculateTopUsers();
       this.loading = false;
+      this.cdr.detectChanges();
     });
 
     this.userDataService.getAllCustomRecipes().subscribe(recipes => {
@@ -691,6 +697,8 @@ export class AnalyticsComponent implements OnInit {
       .map(([recipeId, count]) => ({ recipeId, count, title: `Recipe ${recipeId}` }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
+
+    this.fetchRecipeTitles(this.mostReviewed);
   }
 
   calculateHighestRated(): void {
@@ -770,5 +778,23 @@ export class AnalyticsComponent implements OnInit {
 
   getRatingCount(rating: number): number {
     return this.reviews.filter(r => r.rating === rating).length;
+  }
+
+  fetchRecipeTitles(stats: RecipeStats[]): void {
+    if (stats.length === 0) return;
+
+    const ids = stats.map(s => s.recipeId);
+    this.spoonacularService.getRecipeInformationBulk(ids).subscribe(
+      (recipes: any[]) => {
+        recipes.forEach(recipe => {
+          const item = stats.find(s => s.recipeId === recipe.id);
+          if (item) {
+            item.title = recipe.title;
+          }
+        });
+        this.cdr.detectChanges();
+      },
+      error => console.error('Error fetching recipe titles:', error)
+    );
   }
 }
