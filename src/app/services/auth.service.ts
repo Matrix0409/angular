@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User, AuthResponse } from '../models/models';
+import { UserDataService } from './user-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,10 @@ export class AuthService {
     }
   }
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private userDataService: UserDataService
+  ) {
     const storedUser = this.getStoredUser();
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
@@ -55,14 +59,17 @@ export class AuthService {
   login(email: string, password: string): Observable<User | null> {
     return this.http.get<User[]>(`${this.apiUrl}/users?email=${email}&password=${password}`)
       .pipe(
-        map(users => {
+        switchMap(users => {
           if (users && users.length > 0) {
             const user = users[0];
             this.setStoredUser(user);
             this.currentUserSubject.next(user);
-            return user;
+            // Sync guest data
+            return this.userDataService.syncGuestData(user.id!).pipe(
+              map(() => user)
+            );
           }
-          return null;
+          return of(null);
         }),
         catchError(error => {
           console.error('Login error:', error);
@@ -81,7 +88,7 @@ export class AuthService {
           }
           return user;
         }),
-        map(() => {
+        switchMap(() => {
           // Create new user
           const newUser: User = {
             email: user.email,
@@ -89,14 +96,15 @@ export class AuthService {
             name: user.name,
             isAdmin: false
           };
-          return newUser;
+          return this.http.post<User>(`${this.apiUrl}/users`, newUser);
         }),
-        tap(newUser => {
-          this.http.post<User>(`${this.apiUrl}/users`, newUser)
-            .subscribe(createdUser => {
-              this.setStoredUser(createdUser);
-              this.currentUserSubject.next(createdUser);
-            });
+        switchMap(createdUser => {
+          this.setStoredUser(createdUser);
+          this.currentUserSubject.next(createdUser);
+          // Sync guest data
+          return this.userDataService.syncGuestData(createdUser.id!).pipe(
+            map(() => createdUser)
+          );
         }),
         catchError(error => {
           console.error('Registration error:', error);

@@ -919,9 +919,10 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  viewRecipe(recipeId: number): void {
-    this.router.navigate(['/recipes', recipeId]);
-  }
+ viewRecipe(recipeId: string | number): void {
+  const id = typeof recipeId === 'string' ? parseInt(recipeId, 10) : recipeId;
+  this.router.navigate(['/recipes', id]);
+}
 
   removeFavorite(favorite: Favorite): void {
     if (confirm('Remove this recipe from favorites?')) {

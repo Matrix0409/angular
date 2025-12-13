@@ -338,7 +338,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  viewRecipe(id: number): void {
-    this.router.navigate(['/recipes', id]);
-  }
+viewRecipe(id: string | number): void {
+  const recipeId = typeof id === 'string' ? parseInt(id, 10) : id;
+  this.router.navigate(['/recipes', recipeId]);
+}
 }

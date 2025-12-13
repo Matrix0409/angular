@@ -649,10 +649,10 @@ export class ReviewManagementComponent implements OnInit {
     return Array(rating).fill(0);
   }
 
-  viewRecipe(recipeId: number): void {
-    window.open(`/recipes/${recipeId}`, '_blank');
-  }
-
+viewRecipe(recipeId: string | number): void {
+  const id = typeof recipeId === 'string' ? parseInt(recipeId, 10) : recipeId;
+  window.open(`/recipes/${id}`, '_blank');
+}
   confirmDelete(review: Review): void {
     this.reviewToDelete = review;
     this.showDeleteModal = true;

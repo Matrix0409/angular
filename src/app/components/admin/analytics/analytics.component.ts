@@ -114,7 +114,7 @@ interface RecipeStats {
                 <div class="ranking-item" *ngFor="let recipe of mostReviewed; let i = index">
                   <span class="rank">{{i + 1}}</span>
                   <div class="recipe-info">
-                    <strong>Recipe #{{recipe.recipeId}}</strong>
+                    <strong>{{recipe.title}}</strong>
                     <span class="count">{{recipe.count}} reviews</span>
                   </div>
                 </div>
@@ -130,7 +130,7 @@ interface RecipeStats {
                 <div class="ranking-item" *ngFor="let recipe of highestRated; let i = index">
                   <span class="rank">{{i + 1}}</span>
                   <div class="recipe-info">
-                    <strong>Recipe #{{recipe.recipeId}}</strong>
+                    <strong>{{recipe.title}}</strong>
                     <span class="rating">⭐ {{recipe.averageRating?.toFixed(1)}} ({{recipe.count}} reviews)</span>
                   </div>
                 </div>
@@ -724,6 +724,8 @@ export class AnalyticsComponent implements OnInit {
       .filter(r => r.count >= 2) // At least 2 reviews
       .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0))
       .slice(0, 5);
+
+    this.fetchRecipeTitles(this.highestRated);
   }
 
   calculateTopUsers(): void {
@@ -783,7 +785,17 @@ export class AnalyticsComponent implements OnInit {
   fetchRecipeTitles(stats: RecipeStats[]): void {
     if (stats.length === 0) return;
 
-    // Filter only numeric IDs for Spoonacular
+    // Handle custom recipes (string IDs)
+    stats.forEach(stat => {
+      if (typeof stat.recipeId === 'string') {
+        const custom = this.customRecipes.find(r => r.id === stat.recipeId);
+        if (custom) {
+          stat.title = custom.title;
+        }
+      }
+    });
+
+    // Handle Spoonacular recipes (number IDs)
     const spoonacularIds = stats
       .map(s => s.recipeId)
       .filter((id): id is number => typeof id === 'number');
@@ -802,9 +814,5 @@ export class AnalyticsComponent implements OnInit {
         error => console.error('Error fetching recipe titles:', error)
       );
     }
-
-    // For custom recipes (string IDs), we might want to fetch titles from UserDataService
-    // But for now, we'll leave them as is or they should have been populated elsewhere if possible.
-    // The current loop only updates titles from Spoonacular.
   }
 }

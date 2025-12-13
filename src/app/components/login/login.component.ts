@@ -210,7 +210,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // Get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    
+
     // Redirect to home if already logged in
     if (this.authService.isLoggedIn) {
       this.router.navigate(['/']);
@@ -230,7 +230,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: (user) => {
         if (user) {
-          this.router.navigate([this.returnUrl]);
+          if (user.isAdmin && this.returnUrl === '/') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate([this.returnUrl]);
+          }
         } else {
           this.errorMessage = 'Invalid email or password';
           this.loading = false;

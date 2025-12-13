@@ -608,9 +608,10 @@ export class MealPlannerComponent implements OnInit {
     this.saveSuccess = false;
   }
 
-  viewRecipe(id: number): void {
-    window.open(`/recipes/${id}`, '_blank');
-  }
+ viewRecipe(id: string | number): void {
+  const recipeId = typeof id === 'string' ? parseInt(id, 10) : id;
+  window.open(`/recipes/${recipeId}`, '_blank');
+}
 
   getMealImage(meal: any): string {
     if (meal.image) {

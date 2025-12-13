@@ -53,7 +53,7 @@ import { RecipeCardComponent } from '../recipe-card/recipe-card.component';
           *ngFor="let recipe of recipes"
           [recipe]="recipe"
           [isFavorite]="isFavorite(recipe.id)"
-          [showFavorite]="isLoggedIn"
+          [showFavorite]="true"
           (favoriteToggle)="toggleFavorite($event)"
         ></app-recipe-card>
       </div>
@@ -277,6 +277,8 @@ export class RecipeSearchComponent implements OnInit {
     // Load favorites if logged in
     if (this.isLoggedIn) {
       this.loadFavorites();
+    } else {
+      this.loadGuestFavorites();
     }
   }
 
@@ -290,8 +292,6 @@ export class RecipeSearchComponent implements OnInit {
     this.error = '';
     this.currentPage = 1;
 
-    const offset = (this.currentPage - 1) * this.recipesPerPage;
-
     this.spoonacularService.searchRecipes(this.searchQuery, this.recipesPerPage).subscribe({
       next: (response) => {
         console.log('RecipeSearch: received response', response);
@@ -301,7 +301,6 @@ export class RecipeSearchComponent implements OnInit {
         this.loading = false;
         console.log('RecipeSearch: loading set to false, recipes count:', this.recipes.length);
         this.cdr.detectChanges();
-        console.log('RecipeSearch: change detection triggered');
       },
       error: (err) => {
         console.error('RecipeSearch: Search error:', err);
@@ -330,13 +329,17 @@ export class RecipeSearchComponent implements OnInit {
     }
   }
 
-  isFavorite(recipeId: number): boolean {
-    return this.favorites.some(fav => fav.recipeId === recipeId);
+  loadGuestFavorites(): void {
+    this.favorites = this.userDataService.getGuestFavorites();
+  }
+
+  isFavorite(recipeId: number | string): boolean {
+    return this.favorites.some(fav => fav.recipeId == recipeId);
   }
 
   toggleFavorite(recipe: Recipe): void {
     if (!this.isLoggedIn) {
-      alert('Please login to save favorites');
+      this.toggleGuestFavorite(recipe);
       return;
     }
 
@@ -374,6 +377,23 @@ export class RecipeSearchComponent implements OnInit {
           alert('Failed to add favorite');
         }
       });
+    }
+  }
+
+  toggleGuestFavorite(recipe: Recipe): void {
+    const existingFavorite = this.favorites.find(fav => fav.recipeId === recipe.id);
+    if (existingFavorite) {
+      this.userDataService.removeGuestFavorite(recipe.id);
+      this.favorites = this.favorites.filter(fav => fav.recipeId !== recipe.id);
+    } else {
+      const favorite: Favorite = {
+        userId: 0,
+        recipeId: recipe.id,
+        title: recipe.title,
+        image: recipe.image
+      };
+      this.userDataService.saveGuestFavorite(favorite);
+      this.favorites.push(favorite);
     }
   }
 

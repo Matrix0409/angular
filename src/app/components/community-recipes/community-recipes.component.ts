@@ -7,10 +7,10 @@ import { CustomRecipe, Favorite, Recipe } from '../../models/models';
 import { RecipeCardComponent } from '../recipe-card/recipe-card.component';
 
 @Component({
-    selector: 'app-community-recipes',
-    standalone: true,
-    imports: [CommonModule, RecipeCardComponent],
-    template: `
+  selector: 'app-community-recipes',
+  standalone: true,
+  imports: [CommonModule, RecipeCardComponent],
+  template: `
     <div class="community-container">
       <div class="page-header">
         <h1>🌍 Community Recipes</h1>
@@ -35,13 +35,13 @@ import { RecipeCardComponent } from '../recipe-card/recipe-card.component';
           *ngFor="let recipe of recipes"
           [recipe]="recipeAsStandard(recipe)"
           [isFavorite]="isFavorite(recipe.id)"
-          [showFavorite]="isLoggedIn"
+          [showFavorite]="true"
           (favoriteToggle)="toggleFavorite($event)"
         ></app-recipe-card>
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     .community-container {
       padding: 2rem 0;
       max-width: 1200px;
@@ -123,109 +123,134 @@ import { RecipeCardComponent } from '../recipe-card/recipe-card.component';
   `]
 })
 export class CommunityRecipesComponent implements OnInit {
-    recipes: CustomRecipe[] = [];
-    favorites: Favorite[] = [];
-    loading: boolean = true;
+  recipes: CustomRecipe[] = [];
+  favorites: Favorite[] = [];
+  loading: boolean = true;
 
-    get isLoggedIn(): boolean {
-        return this.authService.isLoggedIn;
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
+
+  constructor(
+    private userDataService: UserDataService,
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit(): void {
+    this.loadRecipes();
+    if (this.isLoggedIn) {
+      this.loadFavorites();
+    } else {
+      this.loadGuestFavorites();
     }
+  }
 
-    constructor(
-        private userDataService: UserDataService,
-        private authService: AuthService,
-        private router: Router,
-        private cdr: ChangeDetectorRef
-    ) { }
+  loadRecipes(): void {
+    this.loading = true;
+    this.userDataService.getPublicCustomRecipes().subscribe({
+      next: (recipes) => {
+        this.recipes = recipes;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading community recipes:', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
-    ngOnInit(): void {
-        this.loadRecipes();
-        if (this.isLoggedIn) {
-            this.loadFavorites();
+  loadFavorites(): void {
+    const userId = this.authService.currentUserValue?.id;
+    if (userId) {
+      this.userDataService.getFavoritesByUserId(userId).subscribe({
+        next: (favorites) => {
+          this.favorites = favorites;
+          this.cdr.detectChanges();
         }
+      });
+    }
+  }
+
+  loadGuestFavorites(): void {
+    this.favorites = this.userDataService['getGuestFavorites']();
+    this.cdr.detectChanges();
+  }
+
+  isFavorite(recipeId?: string | number): boolean {
+    if (!recipeId) return false;
+    return this.favorites.some(fav => fav.recipeId === recipeId);
+  }
+
+  toggleFavorite(recipe: Recipe): void {
+    if (!this.isLoggedIn) {
+      this.toggleGuestFavorite(recipe);
+      return;
     }
 
-    loadRecipes(): void {
-        this.loading = true;
-        this.userDataService.getPublicCustomRecipes().subscribe({
-            next: (recipes) => {
-                this.recipes = recipes;
-                this.loading = false;
-                this.cdr.detectChanges();
-            },
-            error: (err) => {
-                console.error('Error loading community recipes:', err);
-                this.loading = false;
-                this.cdr.detectChanges();
-            }
-        });
-    }
+    const userId = this.authService.currentUserValue?.id;
+    if (!userId) return;
 
-    loadFavorites(): void {
-        const userId = this.authService.currentUserValue?.id;
-        if (userId) {
-            this.userDataService.getFavoritesByUserId(userId).subscribe({
-                next: (favorites) => {
-                    this.favorites = favorites;
-                    this.cdr.detectChanges();
-                }
-            });
+    const existingFavorite = this.favorites.find(fav => fav.recipeId === recipe.id);
+
+    if (existingFavorite && existingFavorite.id) {
+      this.userDataService.removeFavorite(existingFavorite.id as number).subscribe({
+        next: () => {
+          this.favorites = this.favorites.filter(fav => fav.id !== existingFavorite.id);
+          this.cdr.detectChanges();
         }
-    }
+      });
+    } else {
+      const favorite: Favorite = {
+        userId: userId,
+        recipeId: recipe.id,
+        title: recipe.title,
+        image: recipe.image
+      };
 
-    isFavorite(recipeId?: string | number): boolean {
-        if (!recipeId) return false;
-        return this.favorites.some(fav => fav.recipeId === recipeId);
-    }
-
-    toggleFavorite(recipe: Recipe): void {
-        if (!this.isLoggedIn) {
-            alert('Please login to save favorites');
-            return;
+      this.userDataService.addFavorite(favorite).subscribe({
+        next: (newFavorite) => {
+          this.favorites.push(newFavorite);
+          this.cdr.detectChanges();
         }
-
-        const userId = this.authService.currentUserValue?.id;
-        if (!userId) return;
-
-        const existingFavorite = this.favorites.find(fav => fav.recipeId === recipe.id);
-
-        if (existingFavorite && existingFavorite.id) {
-            this.userDataService.removeFavorite(existingFavorite.id as number).subscribe({
-                next: () => {
-                    this.favorites = this.favorites.filter(fav => fav.id !== existingFavorite.id);
-                    this.cdr.detectChanges();
-                }
-            });
-        } else {
-            const favorite: Favorite = {
-                userId: userId,
-                recipeId: recipe.id,
-                title: recipe.title,
-                image: recipe.image
-            };
-
-            this.userDataService.addFavorite(favorite).subscribe({
-                next: (newFavorite) => {
-                    this.favorites.push(newFavorite);
-                    this.cdr.detectChanges();
-                }
-            });
-        }
+      });
     }
+  }
 
-    recipeAsStandard(custom: CustomRecipe): Recipe {
-        // Map CustomRecipe to Recipe format for the card
-        return {
-            id: custom.id || 0, // Fallback, though id custom recipes should have IDs handled
-            title: custom.title,
-            image: custom.image,
-            summary: custom.ingredients, // using ingredients as summary preview
-            readyInMinutes: 0, // Not captured for custom recipes yet
-            servings: 0
-        };
+  toggleGuestFavorite(recipe: Recipe): void {
+    const existingFavorite = this.favorites.find(fav => fav.recipeId === recipe.id);
+    if (existingFavorite) {
+      this.userDataService.removeGuestFavorite(recipe.id);
+      this.favorites = this.favorites.filter(fav => fav.recipeId !== recipe.id);
+    } else {
+      const favorite: Favorite = {
+        userId: 0,
+        recipeId: recipe.id,
+        title: recipe.title,
+        image: recipe.image
+      };
+      this.userDataService.saveGuestFavorite(favorite);
+      this.favorites.push(favorite);
     }
+    this.cdr.detectChanges();
+  }
 
-    goToCreateRecipe(): void {
-        this.router.navigate(['/custom-recipe']);
-    }
+  recipeAsStandard(custom: CustomRecipe): Recipe {
+    // Map CustomRecipe to Recipe format for the card
+    return {
+      id: custom.id || 0, // Fallback, though id custom recipes should have IDs handled
+      title: custom.title,
+      image: custom.image,
+      summary: custom.ingredients, // using ingredients as summary preview
+      readyInMinutes: 0, // Not captured for custom recipes yet
+      servings: 0
+    };
+  }
+
+  goToCreateRecipe(): void {
+    this.router.navigate(['/custom-recipe']);
+  }
 }

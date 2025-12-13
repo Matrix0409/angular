@@ -36,6 +36,20 @@
       "recipeId": 647551,
       "title": "Hot ‘n’ honey potato sticks",
       "image": "https://img.spoonacular.com/recipes/647551-556x370.jpg"
+    },
+    {
+      "id": "629e",
+      "userId": "77ba",
+      "recipeId": 636393,
+      "title": "Buckwheat Galette With An Egg",
+      "image": "https://img.spoonacular.com/recipes/636393-556x370.jpg"
+    },
+    {
+      "id": "8298",
+      "userId": "77ba",
+      "recipeId": 634437,
+      "title": "Basil Tagliatelle with Roasted Red Bell Pepper Salad",
+      "image": "https://img.spoonacular.com/recipes/634437-556x370.jpg"
     }
   ],
   "mealPlans": [

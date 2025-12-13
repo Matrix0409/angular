@@ -164,4 +164,75 @@ export class UserDataService {
     return this.http.delete(`${this.apiUrl}/customRecipes?userId=${userId}`);
   }
 
+  // Guest Data Management
+  public getGuestFavorites(): Favorite[] {
+    if (typeof localStorage === 'undefined') return [];
+    const stored = localStorage.getItem('guest_favorites');
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  saveGuestFavorite(favorite: Favorite): void {
+    if (typeof localStorage === 'undefined') return;
+    const favorites = this.getGuestFavorites();
+    if (!favorites.some(f => f.recipeId === favorite.recipeId)) {
+      favorites.push(favorite);
+      localStorage.setItem('guest_favorites', JSON.stringify(favorites));
+    }
+  }
+
+  removeGuestFavorite(recipeId: number | string): void {
+    if (typeof localStorage === 'undefined') return;
+    let favorites = this.getGuestFavorites();
+    favorites = favorites.filter(f => f.recipeId !== recipeId);
+    localStorage.setItem('guest_favorites', JSON.stringify(favorites));
+  }
+
+  checkIfGuestFavorite(recipeId: number | string): boolean {
+    const favorites = this.getGuestFavorites();
+    return favorites.some(f => f.recipeId === recipeId);
+  }
+
+  syncGuestData(userId: number): Observable<any> {
+    const guestFavorites = this.getGuestFavorites();
+    if (guestFavorites.length === 0) return new Observable(obs => { obs.next(null); obs.complete(); });
+
+    const addObservables = guestFavorites.map(fav => {
+      const favorite: Favorite = { ...fav, userId: userId };
+      delete favorite.id;
+      return this.addFavorite(favorite);
+    });
+
+    return new Observable(observer => {
+      let completed = 0;
+      let errors = 0;
+
+      if (addObservables.length === 0) {
+        observer.next(null);
+        observer.complete();
+        return;
+      }
+
+      addObservables.forEach(obs => {
+        obs.subscribe({
+          next: () => {
+            completed++;
+            if (completed + errors === addObservables.length) {
+              localStorage.removeItem('guest_favorites');
+              observer.next(null);
+              observer.complete();
+            }
+          },
+          error: (err) => {
+            console.error('Failed to sync favorite', err);
+            errors++;
+            if (completed + errors === addObservables.length) {
+              localStorage.removeItem('guest_favorites');
+              observer.next(null);
+              observer.complete();
+            }
+          }
+        });
+      });
+    });
+  }
 }

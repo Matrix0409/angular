@@ -491,10 +491,10 @@ export class AdvancedSearchComponent implements OnInit {
     }
   }
 
-  isFavorite(recipeId: number): boolean {
-    return this.favorites.some(fav => fav.recipeId === recipeId);
-  }
-
+ isFavorite(recipeId: string | number): boolean {
+  const id = typeof recipeId === 'string' ? parseInt(recipeId, 10) : recipeId;
+  return this.favorites.some(fav => fav.recipeId === id);
+}
   toggleFavorite(recipe: Recipe): void {
     const userId = this.authService.currentUserValue?.id;
     if (!userId) return;
